@@ -1,0 +1,50 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block title %}
+    {% if category %}
+        {{ category.name }}
+    {% else %}
+        Products
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="col-md-3">
+        <h3><strong>Categories</strong></h3>
+        <ul class="list-group">
+            <li class="list-group-item" style="background-color: lightblue;" {% if not category %}class="selected"{% endif %}>
+                <a href="{% url "store:product_view" %}">All</a>
+            </li>
+            {% for c in categories %}
+            <li class="list-group-item" {% if category.slug == c.slug %}class="selected"{% endif %}>
+                <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div id="main" class="col-md-9">
+        <div class="row">
+            <h2>{% if category %}{{ category.name }}{% else %}Products{% endif %}</h2>
+            {% with total_products=products|length %}
+                {% if products|length > 0 %}
+                    <p>There are {{ total_products }} product{{ total_products|pluralize }} available</p>
+                {% else %}
+                    <p>No product available.</p>
+                {% endif %}
+            {% endwith %}
+            {% for product in products %}
+
+                <div class="col-md-4 text-center col-sm-6 col-xs-6" style="height: 250px; max-height: 250px;">
+                    <div class="thumbnail product-box" >
+                        <a href="{{ product.get_absolute_url }}">
+                            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "image/no_image.jpg" %}{% endif%}">
+                        </a>
+                        <a href="{{ product.get_absolute_url }}">{{ product.name }}</a><br>
+                        ${{ product.price }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block title %}
+    {% if category %}{{ category.title }}{% else %}Products{% endif %}
+{% endblock %}
+
+{% block content %}
+    <div id="main" class="col-md-12" style="overflow: hidden">
+        <div style="float: left; width: 50%;">
+            <img style="width: 100%" src="{{ product.image.url }}">
+        </div>
+        <div style="float: left; margin-left: 10%">
+            <h2><strong>{{ product.name }}</strong></h2>
+            <h2><a href="{{ product.category.get_absolute_url }}">{{ product.category }}</a></h2>
+            <p class="price" style="font-size: 24px;"><strong>$ {{ product.price }}</strong></p>
+            <form action="{% url "cart:cart_add" product.id %}" method="post">
+                {{ cart_product_form }}
+                {% csrf_token %}
+                <input type="submit" value="Add to Cart" class="btn btn-primary">
+            </form>
+            <div style="margin-top: 10px; border: 0.5px solid lightgrey; border-radius: 10px; padding: 5px 10px">
+                {{ product.description|linebreaks }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

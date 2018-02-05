@@ -1,0 +1,30 @@
+{% extends "store/base.html" %}
+{% load static %}
+<!DOCTYPE html>
+{% block content %}
+        <div class="col-md-9" style="font-size: 16px;">
+            <h2>Registration</h2>
+            <hr>
+            <form action="." method="POST">
+                <p>
+                    {% csrf_token %}
+                    <label>Username: </label><br>
+                    {{ form.username}}
+                </p>
+                <p>
+                    <label>Email: </label><br>
+                    {{ form.email }}
+                </p>
+                <p>
+                    <label>Password: </label><br>
+                    {{ form.password1 }}
+                </p>
+                <p>
+                    <label>Re-enter Password: </label><br>
+                    {{ form.password2 }}
+                </p>
+                <p><input class="btn btn-primary" type="submit" value="Register"></p>
+
+            </form>
+        </div>
+{% endblock %}

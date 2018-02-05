@@ -1,0 +1,28 @@
+{% extends "store/base.html" %}
+
+{% block title %}
+    Add New Order - Checkout
+{% endblock %}
+
+{% block content %}
+    <h1>Finish your Order</h1>
+    <hr>
+    <div class="order-info" style="float:right; width:300px; background:#efefef; padding:10px 20px; color:#333; border-bottom:4px solid #5993bb;">
+        <h3 style="color:#5993bb;">Order Information</h3>
+        <ul style="margin:0; padding:0; font-size:14px;">
+            {% for item in cart %}
+                <li style="margin:0; padding:0; font-size:14px;">
+                    {{item.product.name}} x {{item.quantity}}
+                    <span>$ {{ item.total_price }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+        <p style="font-weight:bold; float:right;">Total: $ {{ cart.get_total_price }}</p>
+    </div>
+
+    <form action="." method="post" class="order-form">
+        {{ form.as_p }}
+        <p><input class="btn btn-primary" type="submit" value="Place Order" class="button"></p>
+        {% csrf_token %}
+    </form>
+{% endblock %}
